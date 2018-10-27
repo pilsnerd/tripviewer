@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { getTripsByDate } from '../api/pilsnerdApi';
+import { getTripsByDate } from '../../api/pilsnerdApi';
 
 class Trips extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class Trips extends Component {
 
     return (
       <div>
-        <h2>Choose a trip to review</h2>
+        <h2>Choose a trip to view</h2>
         {trips}
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import TripMapContainer from './maps/tripmapcontainer';
+import TripMapContainer from '../maps/tripmapcontainer';
 import GalleryContainer from './gallerycontainer';
-import { getTripByDate } from '../api/pilsnerdApi';
+import { getTripByDate } from '../../api/pilsnerdApi';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 class TripByDate extends Component {

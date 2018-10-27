@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import TripMapContainer from './maps/tripmapcontainer';
+import TripMapContainer from '../maps/tripmapcontainer';
 import GalleryContainer from './gallerycontainer';
-import { getTrip } from '../api/pilsnerdApi';
+import { getTrip } from '../../api/pilsnerdApi';
 
 class Trip extends Component {
   constructor(props) {

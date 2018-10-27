@@ -9,7 +9,7 @@ export default class GalleryContainer extends React.Component {
 
   render() {
     return (
-      <div style={{width:"900px", height:"600px"}}>
+      <div style={{width:"50%"}}>
         <ImageGallery ref="gallery" items={this.props.pictures} infinite={false} thumbnailPosition={'left'} lazyLoad={true} showPlayButton={false} showBullets={true} showIndex={true} />
       </div>
     );

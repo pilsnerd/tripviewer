@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 // import queryString from 'query-string';
 import qs from 'qs';
-import { getFolders } from '../api/pilsnerdApi';
-import Auth from '../auth/auth';
-import LoginLogout from '../auth/loginlogout';
+import { getFolders } from '../../api/pilsnerdApi';
+// import Auth from '../../auth/auth';
+// import LoginLogout from '../../auth/loginlogout';
 // import BillList from './billList';
+import Breadcrumbs from './breadcrumbs';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
 //    trying to perform "npm run build" so the best recommendation I found was to
@@ -30,10 +31,12 @@ class Summary extends Component {
     this.state = {
       path,
       subfolders: [],
-      photos: []
+      photos: [],
+      selectedPhoto: {}
     };
 
     this.loadFolders = this.loadFolders.bind(this);
+    this.selectPhoto = this.selectPhoto.bind(this);
   }
 
   componentDidMount() {
@@ -49,9 +52,9 @@ class Summary extends Component {
     // const values = queryString.parse(this.props.location.search);
     // console.log(values.path);
     const path = this.getPath();
-    console.log(`did update ${prevState.path} --> ${path}`);
+    // console.log(`did update ${prevState.path} --> ${path}`);
     if (this.state.path !== path) {
-      this.setState({ path });
+      this.setState({ path, selectedPhoto: null });
       this.loadFolders(path);
     }
     // this.loadFolders();
@@ -79,6 +82,14 @@ class Summary extends Component {
   loadFolders(path) {
     getFolders(path)
       .then(folder => {
+
+        var i = 1;
+        folder.photos.forEach(photo => {
+          photo.index = i++;
+          photo.thumbPath = `http://www.pilsnerd.com/${this.state.path}/${photo.thumbnailFilename}.${photo.extension}`;
+          photo.webPath = `http://www.pilsnerd.com/${this.state.path}/${photo.filename}.${photo.extension}`;
+        });
+
         this.setState({
           subfolders: folder.subfolderNames,
           photos: folder.photos
@@ -86,22 +97,17 @@ class Summary extends Component {
       });
   }
 
+  selectPhoto(photo) {
+    console.log(photo);
+    this.setState({
+      ...this.state,
+      selectedPhoto: photo
+    });
+  }
+
   render() {
     const rootPath = this.state.path;
     const pathBits = rootPath.split('/');
-    let crumbPath = '/photo?path=';
-    const breadcrumbs = pathBits.map(crumb => {
-      if (crumb.length > 0) {
-        crumbPath += `/${crumb}`;
-        return (
-          <span>
-            {'/'}
-            <Link to={crumbPath}>{crumb}</Link>
-          </span>
-        );
-      }
-      return (<span />);
-    });
 
     const subs = this.state.subfolders.length === 0
       ? <div>no subfolders</div>
@@ -115,13 +121,34 @@ class Summary extends Component {
         );
       });
 
+    var photoWebPath = '';
+    var photoName = '';
+    var photoCounter = <span />;
+    if (this.state.selectedPhoto && this.state.selectedPhoto.index > 0) {
+      photoWebPath = this.state.selectedPhoto.webPath;
+      photoName = this.state.selectedPhoto.filename;
+      const photoIndex = this.state.selectedPhoto.index;
+      const totalPhotos = this.state.photos.length === 0
+        ? ''
+        : this.state.photos.length;
+      photoCounter = <span className='overlay-right'>{`${photoIndex}/${totalPhotos}`}</span>;
+    }
+
     const photos = this.state.photos.length === 0
       ? <div>no photos</div>
       : this.state.photos.map(photo => {
-        const thumbPath = `http://www.pilsnerd.com/${rootPath}/${photo.thumbnailFilename}.${photo.extension}`;
+        var cls = 'unselectedPhoto';
+        if (this.state.selectedPhoto && this.state.selectedPhoto.index > 0 && photo.index === this.state.selectedPhoto.index) {
+          cls = 'selectedPhoto';
+        }
         return (
           <div key={photo.filename}>
-            <img src={thumbPath} alt={photo.filename} />
+            <img
+              src={photo.thumbPath}
+              alt={photo.filename}
+              title={photo.filename}
+              onClick={() => this.selectPhoto(photo)}
+              className={cls} />
             {/* {photo.filename} */}
           </div>
         );
@@ -129,13 +156,31 @@ class Summary extends Component {
 
     return (
       <div>
-        <LoginLogout auth={new Auth()} />
-        < p />
-        {breadcrumbs}
-        < p />
+        {/* <LoginLogout auth={new Auth()} />
+        < p /> */}
+        <Breadcrumbs pathBits={pathBits} />
+        <hr />
         {subs}
-        < p />
-        {photos}
+        <hr />
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <div className='thumbnailwindow'>
+                  {photos}
+                </div>
+              </td>
+              <td>
+                {photoCounter}
+                <div className='row600-noscroll'>
+                  <img height={580} alt={photoName} title={photoName} src={photoWebPath} />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {/* {photos}
+        {this.state.selectedPhoto.filename} */}
         {/* <BillList title="Upcoming bills" bills={this.state.upcomingBills} /> */}
       </div >
     );

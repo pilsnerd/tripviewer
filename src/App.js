@@ -4,10 +4,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 import Menu from './components/menu';
 import Home from './components/home';
-import Summary from './components/summary';
+import MapTest from './components/maptest';
+import Summary from './components/photos/summary';
 import Trips from './components/trips';
-import Trip from './components/trip';
+// import Trip from './components/trip';
 import TripByDate from './components/tripbydate';
+import tripsjpg from './images/trips.jpg';
 // import LoginLogout from './auth/loginlogout';
 // import Auth from './auth/auth';
 
@@ -24,7 +26,13 @@ import TripByDate from './components/tripbydate';
 
 class App extends Component {
   render() {
-    return (
+    const menuItems = [
+      { link: '/photo', text: 'Photos' },
+      { link: '/trips', text: 'Trips', iconUrl: tripsjpg },
+      { link: '/maptest', text: 'Map Test' }
+    ];
+  
+      return (
       <Router>
         <div className="App">
           <script type="text/javascript" src="node_modules/auth0-js/build/auth0.js"></script>
@@ -35,9 +43,10 @@ class App extends Component {
             <li><Link to="/photo?path=/EasyPics/2018">2018</Link></li>
           </ul> */}
 
-          <Menu />
+          <Menu items={menuItems} />
 
           <Route exact path="/" component={Home} />
+          <Route path="/maptest" component={MapTest} />
           <Route path="/photo" component={Summary} />
           <Route path="/trips/" exact component={Trips} />
           <Route path="/trips/:id" component={TripByDate} />

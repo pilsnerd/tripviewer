@@ -35,6 +35,18 @@ body {
 }
 
 
+.menuItem {
+  margin-left: 5px;
+  padding-top: 25px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  border-top: 1px black solid;
+  border-left: 1px black solid;
+  border-bottom: 3px black solid;
+  border-right: 3px black solid;
+}
+
 .centered {
   margin: auto;
 }
@@ -55,4 +67,37 @@ body {
 
 .column600 {
   width: 600px;
+}
+
+.thumbnailwindow {
+  max-height: 600px;
+  width: 150px;
+  overflow: auto;
+}
+
+.row600-noscroll {
+  max-height: 590px;
+  overflow: auto;
+}
+
+.overlay-right {
+  float: right;
+  background-color: gray;
+  color: white;
+  padding: 10px;
+}
+
+.unselectedPhoto {
+  border: 1px gray solid;
+  margin: 3px;
+  max-width: 120px;
+}
+
+.selectedPhoto {
+  border: 1px red solid;
+  border-left: 3px red solid;
+  border-right: 5px red solid;
+  float: right;
+  margin: 3px;
+  max-width: 120px;
 }

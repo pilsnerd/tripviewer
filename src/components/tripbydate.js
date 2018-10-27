@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TripMapContainer from './maps/tripmapcontainer';
 import GalleryContainer from './gallerycontainer';
 import { getTripByDate } from '../api/pilsnerdApi';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 class TripByDate extends Component {
   constructor(props) {
@@ -87,15 +88,68 @@ class TripByDate extends Component {
     var latitudeTwo = placeTwo.latitude * 1.0;//+ '';
     var longitudeTwo = placeTwo.longitude * 1.0;//+ '';
     var comparisonPrecision = 0.1;//6;
-    if (mapZoomLevel == 16) {
-      comparisonPrecision = 0.0006;
+    switch (mapZoomLevel) {
+      case 20:
+        comparisonPrecision = 0.00002145767212;
+        break;
+      case 19:
+        comparisonPrecision = 0.00004559755325;
+        break;
+      case 18:
+        comparisonPrecision = 0.00008046627045;
+        break;
+      case 17:
+        comparisonPrecision = 0.00017166137696;
+        break;
+      case 16:
+        comparisonPrecision = 0.00038623809815;
+        break;
+      case 15:
+        comparisonPrecision = 0.00068664550781;
+        break;
+      case 14:
+        comparisonPrecision = 0.00154495239257;
+        break;
+      case 13:
+        comparisonPrecision = 0.00308990478516;
+        break;
+      case 12:
+        comparisonPrecision = 0.0058364868164;
+        break;
+      case 11:
+        comparisonPrecision = 0.01029968261718;
+        break;
+      case 10:
+        comparisonPrecision = 0.02197265625;
+        break;
+      case 9:
+        comparisonPrecision = 0.04669189453125;
+        break;
+      case 8:
+        comparisonPrecision = 0.0823974609375;
+        break;
+      case 7:
+        comparisonPrecision = 0.186767578125;
+        break;
+      case 6:
+        comparisonPrecision = 0.37353515625;
+        break;
+      case 5:
+        comparisonPrecision = 0.791015625;
+        break;
+      default:
+        comparisonPrecision = 1.669921875;
+        break;
     }
-    if (mapZoomLevel == 13) {
-      comparisonPrecision = 0.006;
-    }
-    if (mapZoomLevel < 13) {
-      comparisonPrecision = 0.01;//5;
-    }
+    // if (mapZoomLevel == 16) {
+    //   comparisonPrecision = 0.00035;
+    // }
+    // if (mapZoomLevel == 13) {
+    //   comparisonPrecision = 0.006;
+    // }
+    // if (mapZoomLevel < 13) {
+    //   comparisonPrecision = 0.01;//5;
+    // }
     // if (latitudeOne.substring(0, comparisonPrecision) === latitudeTwo.substring(0, comparisonPrecision)
     //   && longitudeOne.substring(0, comparisonPrecision + 1) === longitudeTwo.substring(0, comparisonPrecision + 1)) {
     //   return true;
@@ -195,20 +249,34 @@ class TripByDate extends Component {
       console.log('how many pictures', galleryPictures.length);
     }
     return (
-      <table className='table1500 centered'>
-        <tbody>
-          <tr>
-            <td><h2>{theDate}</h2></td>
-          </tr>
-          <tr>
-            <td>{dateMap}</td>
-            <td>{placePictures}</td>
-          </tr>
-          <tr>
-            <td className='column600'>{dateDescription}</td>
-          </tr>
-        </tbody>
-      </table>
+      <section>
+        <Grid>
+          <Row>
+            <Col xs={12}>{theDate}</Col>
+          </Row>
+          <Row>
+            <Col xs={6} lg={6}>{dateMap}</Col>
+            <Col xs={6} lg={6}>{placePictures}</Col>
+          </Row>
+          <Row>
+            <Col xs={6}>{dateDescription}</Col>
+          </Row>
+        </Grid>
+      </section>
+      // <table className='table1500 centered'>
+      //   <tbody>
+      //     <tr>
+      //       <td><h2>{theDate}</h2></td>
+      //     </tr>
+      //     <tr>
+      //       <td>{dateMap}</td>
+      //       <td>{placePictures}</td>
+      //     </tr>
+      //     <tr>
+      //       <td className='column600'>{dateDescription}</td>
+      //     </tr>
+      //   </tbody>
+      // </table>
     );
   }
 
@@ -220,8 +288,16 @@ class TripByDate extends Component {
         <h2>{trip.name}</h2>
         <span>{trip.description}</span>
         <hr />
-        {this.renderDateLinks()}
-        {this.renderDate()}
+        <Grid>
+          <Row>
+            <Col>
+              {this.renderDateLinks()}
+            </Col>
+          </Row>
+          <Row>
+            {this.renderDate()}
+          </Row>
+        </Grid>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import MapMarker from "./mapmarker";
-import MapLine from "./mapline";
+// import MapLine from "./mapline";
 
 const TripMap = withScriptjs(withGoogleMap((props) => {
 
@@ -18,17 +18,25 @@ const TripMap = withScriptjs(withGoogleMap((props) => {
 
   function onZoomChanged() {
     const newZoom = 1;//mapObject.getZoom();
-    props.onZoomChanged(newZoom);
+    if (props.onZoomChanged) {
+      props.onZoomChanged(newZoom);
+    }
   }
 
-  var linePointA = { lat: 48.023891, lng: -90.779418 };
-  var linePointB = { lat: 48.077125, lng: -90.814790 };
-  var linePath = [linePointA, linePointB];
-  var mapLine = <MapLine
-    path={linePath}
-  />;
+  function onMapClicked(e) {
+    if (props.onMapClick) {
+      props.onMapClick(e);
+    }
+  }
 
-  console.log('map zoom level', props.defaultZoomLevel);
+  // var linePointA = { lat: 48.023891, lng: -90.779418 };
+  // var linePointB = { lat: 48.077125, lng: -90.814790 };
+  // var linePath = [linePointA, linePointB];
+  // var mapLine = <MapLine
+  //   path={linePath}
+  // />;
+
+  // console.log('map zoom level', props.defaultZoomLevel);
 
   return (
     <GoogleMap
@@ -39,6 +47,7 @@ const TripMap = withScriptjs(withGoogleMap((props) => {
       mapTypeId='satellite'
       options={{ streetViewControl: false }}
       onZoomChanged={onZoomChanged}
+      onClick={onMapClicked}
     >
       {markers}
       {/* {mapLine} */}

@@ -7,8 +7,13 @@ To build and "deploy" the project:
   npm run build
   -- manually edit the index.html file and replace "/static/" with just "static/"
   copy the contents of the build folder to D:\Web\Home\trips\
+  -- this app can then be browsed to via www.pisnerd.com/trips
+    -- clicking around might make it look like www.pilsnerd.com has been taken over, but everything is really still just running at www.pilsnerd.com/trips
 
-
+Info on routing:
+  Since this app will be (at least initially) hosted in a subfolder, there are two settings that I added:
+  -- in App.js in the <Router> tag I added the "basename" attribute with a value of the name of the subfolder.
+  -- in package.json I added the "hompage" property.
 
 
 -----------------------------

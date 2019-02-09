@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import queryString from 'query-string';
 import qs from 'qs';
-import { getFolders } from '../../api/pilsnerdApi';
+import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
 // import Auth from '../../auth/auth';
 // import LoginLogout from '../../auth/loginlogout';
 // import BillList from './billList';
@@ -35,16 +35,25 @@ class Summary extends Component {
       selectedPhoto: {}
     };
 
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.loadFolders = this.loadFolders.bind(this);
     this.selectPhoto = this.selectPhoto.bind(this);
+    this.selectNextPhoto = this.selectNextPhoto.bind(this);
+    this.findFullSizePaths = this.findFullSizePaths.bind(this);
   }
 
   componentDidMount() {
     // console.log('did mount');
     // this.loadFolders();
 
+    document.addEventListener('keydown', this.handleKeyDown);
+
     const path = this.getPath();
     this.loadFolders(path);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -69,6 +78,16 @@ class Summary extends Component {
     // };
   }
 
+  handleKeyDown(evt) {
+    // console.log(evt.key + ' was pressed!');
+    if (evt.key == 'ArrowRight') {
+      this.selectNextPhoto(1);
+    }
+    if (evt.key == 'ArrowLeft') {
+      this.selectNextPhoto(-1);
+    }
+  }
+
   getPath() {
     // const values = queryString.parse(this.props.location.search);
     const values = qs.parse(this.props.location.search.slice(1));
@@ -88,21 +107,59 @@ class Summary extends Component {
           photo.index = i++;
           photo.thumbPath = `http://www.pilsnerd.com/${this.state.path}/${photo.thumbnailFilename}.${photo.extension}`;
           photo.webPath = `http://www.pilsnerd.com/${this.state.path}/${photo.filename}.${photo.extension}`;
+          if (photo.fullSizePath) {
+            photo.fullSizePaths = [photo.fullSizePath];
+          }
         });
 
         this.setState({
+          folderCaption: folder.caption,
           subfolders: folder.subfolderNames,
-          photos: folder.photos
+          photos: folder.photos,
+          selectedPhoto: folder.photos[0]
         })
       });
   }
 
   selectPhoto(photo) {
-    console.log(photo);
+    // console.log(photo);
     this.setState({
       ...this.state,
       selectedPhoto: photo
     });
+  }
+
+  selectNextPhoto(increment) {
+    var currentPhoto = this.state.selectedPhoto;
+    if (currentPhoto) {
+      var nextIndex = currentPhoto.index - 1 + increment;
+      if (this.state.photos.length > nextIndex && nextIndex >= 0) {
+        this.selectPhoto(this.state.photos[nextIndex]);
+      }
+    }
+  }
+
+  findFullSizePaths(photo) {
+    if (!photo.fullSizePaths) {
+      getFullSizeFolders(photo.filename, photo.extension)
+        .then(folders => {
+          var fullSizePaths = [];
+          folders.forEach(folder => {
+            var path = folder.fullSizePath;
+            path = path.replace("\\\\charon\\Public\\Photos", "/FullSizePics");
+            path = path.replace(/\\/g, "/");
+            var fullSizePath = `http://www.pilsnerd.com${path}/${folder.fullSizeFilename}.${folder.fullSizeExtension}`;
+            fullSizePaths.push(fullSizePath);
+            // console.log(fullSizePath);
+          });
+          photo.fullSizePaths = fullSizePaths;
+          this.setState({
+            ...this.state,
+            selectedPhoto: photo
+          });
+        });
+    }
+
   }
 
   render() {
@@ -124,6 +181,8 @@ class Summary extends Component {
     var photoWebPath = '';
     var photoName = '';
     var photoCounter = <span />;
+    var photoDetails = '';
+    var fullSizePathLinks = [];
     if (this.state.selectedPhoto && this.state.selectedPhoto.index > 0) {
       photoWebPath = this.state.selectedPhoto.webPath;
       photoName = this.state.selectedPhoto.filename;
@@ -132,6 +191,31 @@ class Summary extends Component {
         ? ''
         : this.state.photos.length;
       photoCounter = <span className='overlay-right'>{`${photoIndex}/${totalPhotos}`}</span>;
+      if (this.state.selectedPhoto.fullSizePaths) {
+        fullSizePathLinks.push(<span key='label'>Full-size photo possibilities:<br /></span>);
+        this.state.selectedPhoto.fullSizePaths.forEach(path => {
+          fullSizePathLinks.push(<span key={path}><a href={path} target='blank'>{path}</a><br /></span>);
+        })
+      }
+      else {
+        fullSizePathLinks.push(<span key='find'><a onClick={() => { this.findFullSizePaths(this.state.selectedPhoto); }}>Find full size photo</a></span>);
+      }
+      var people = '';
+      if (this.state.selectedPhoto.people) {
+        people = '|';
+        this.state.selectedPhoto.people.forEach(person => {
+          people += ' ' + person + ' |';
+        })
+      }
+      photoDetails =
+        <div>
+          {this.state.selectedPhoto.dateTaken}<br />
+          {this.state.selectedPhoto.caption}<br />
+          {this.state.selectedPhoto.description}<br />
+          {this.state.selectedPhoto.location}<p />
+          {people}<br />
+          {fullSizePathLinks}
+        </div>;
     }
 
     const photos = this.state.photos.length === 0
@@ -159,13 +243,14 @@ class Summary extends Component {
         {/* <LoginLogout auth={new Auth()} />
         < p /> */}
         <Breadcrumbs pathBits={pathBits} />
+        <p>{this.state.folderCaption}</p>
         <hr />
         {subs}
         <hr />
         <table>
           <tbody>
             <tr>
-              <td>
+              <td className="row600">
                 <div className='thumbnailwindow'>
                   {photos}
                 </div>
@@ -176,9 +261,13 @@ class Summary extends Component {
                   <img height={580} alt={photoName} title={photoName} src={photoWebPath} />
                 </div>
               </td>
+              <td>
+                {photoDetails}
+              </td>
             </tr>
           </tbody>
         </table>
+        {/* {fullSizePathLinks} */}
         {/* {photos}
         {this.state.selectedPhoto.filename} */}
         {/* <BillList title="Upcoming bills" bills={this.state.upcomingBills} /> */}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 // import logo from './logo.svg';
 import './App.css';
+import { getMenus } from './api/pilsnerdApi';
 import Menu from './components/menu';
 import Home from './components/home';
 import MapTest from './components/maptest';
@@ -10,6 +11,7 @@ import Trips from './components/trips/trips';
 // import Trip from './components/trip';
 import TripByDate from './components/trips/tripbydate';
 import tripsjpg from './images/trips.jpg';
+import photosjpg from './images/photos.jpg';
 // import LoginLogout from './auth/loginlogout';
 // import Auth from './auth/auth';
 
@@ -25,15 +27,26 @@ import tripsjpg from './images/trips.jpg';
 // auth.login();
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      menuItems: []
+    };
+  }
+
+  componentDidMount() {
+    getMenus()
+      .then(menus => {
+        this.setState({
+          menuItems: menus
+        })
+      });
+  }
+
   render() {
-    const menuItems = [
-      { link: '/photo', text: 'Photos' },
-      { link: '/trips', text: 'Trips', iconUrl: tripsjpg },
-      { link: '/maptest', text: 'Map Test' }
-    ];
-  
-      return (
-      <Router>
+    return (
+      <Router basename={'/trips'}>
         <div className="App">
           <script type="text/javascript" src="node_modules/auth0-js/build/auth0.js"></script>
           {/* <LoginLogout auth={new Auth()} /> */}
@@ -43,7 +56,7 @@ class App extends Component {
             <li><Link to="/photo?path=/EasyPics/2018">2018</Link></li>
           </ul> */}
 
-          <Menu items={menuItems} />
+          <Menu items={this.state.menuItems} />
 
           <Route exact path="/" component={Home} />
           <Route path="/maptest" component={MapTest} />

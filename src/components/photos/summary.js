@@ -7,6 +7,7 @@ import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
 // import LoginLogout from '../../auth/loginlogout';
 // import BillList from './billList';
 import Breadcrumbs from './breadcrumbs';
+import SubFolderList from './subfolderlist';
 import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
@@ -170,18 +171,6 @@ class Summary extends Component {
     const rootPath = this.state.path;
     const pathBits = rootPath.split('/');
 
-    const subs = (!this.state.subfolders || this.state.subfolders.length === 0)
-      ? <div>no subfolders</div>
-      : this.state.subfolders.map(fld => {
-        const fldPath = `${rootPath}/${fld}`;
-        const linkPath = `/photo?path=${fldPath}`;
-        return (
-          <div key={fld} className='listItem'>
-            <Link to={linkPath}>{fld}</Link>
-          </div>
-        );
-      });
-
     var photoWebPath = '';
     var photoName = '';
     var photoCounter = <span />;
@@ -253,9 +242,8 @@ class Summary extends Component {
         <p>{this.state.folderCaption}</p>
         <hr />
         <div className='listHeader leftAligned paddedLeft'>
-          {subs}
+          <SubFolderList path={rootPath} subfolders={this.state.subfolders} />
         </div>
-        <hr />
         <table>
           <tbody>
             <tr>

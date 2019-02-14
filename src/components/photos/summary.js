@@ -202,11 +202,11 @@ class Summary extends Component {
       }
       photoDetails =
         <div>
-          {this.state.selectedPhoto.dateTaken}<br />
+          {this.state.selectedPhoto.dateTaken === '1/1/2000' ? <span /> : this.state.selectedPhoto.dateTaken}<br />
           {this.state.selectedPhoto.caption}<br />
           {this.state.selectedPhoto.description}<br />
-          {this.state.selectedPhoto.location}<p />
-          {people}<br />
+          {this.state.selectedPhoto.location === '0, 0' ? <span /> : this.state.selectedPhoto.location}<p />
+          {people === '|' ? <span /> : people}<br />
           {fullSizePathLinks}
         </div>;
     }

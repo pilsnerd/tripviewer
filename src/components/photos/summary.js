@@ -7,6 +7,7 @@ import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
 // import LoginLogout from '../../auth/loginlogout';
 // import BillList from './billList';
 import Breadcrumbs from './breadcrumbs';
+import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
 //    trying to perform "npm run build" so the best recommendation I found was to
@@ -29,6 +30,7 @@ class Summary extends Component {
     const path = this.getPath();
 
     this.state = {
+      loading: true,
       path,
       subfolders: [],
       photos: [],
@@ -99,6 +101,7 @@ class Summary extends Component {
   }
 
   loadFolders(path) {
+    this.setState({ loading: true });
     getFolders(path)
       .then(folder => {
 
@@ -113,6 +116,7 @@ class Summary extends Component {
         });
 
         this.setState({
+          loading: false,
           folderCaption: folder.caption,
           subfolders: folder.subfolderNames,
           photos: folder.photos,
@@ -166,13 +170,13 @@ class Summary extends Component {
     const rootPath = this.state.path;
     const pathBits = rootPath.split('/');
 
-    const subs = this.state.subfolders.length === 0
+    const subs = (!this.state.subfolders || this.state.subfolders.length === 0)
       ? <div>no subfolders</div>
       : this.state.subfolders.map(fld => {
         const fldPath = `${rootPath}/${fld}`;
         const linkPath = `/photo?path=${fldPath}`;
         return (
-          <div key={fld}>
+          <div key={fld} className='listItem'>
             <Link to={linkPath}>{fld}</Link>
           </div>
         );
@@ -198,7 +202,7 @@ class Summary extends Component {
         })
       }
       else {
-        fullSizePathLinks.push(<span key='find'><a onClick={() => { this.findFullSizePaths(this.state.selectedPhoto); }}>Find full size photo</a></span>);
+        fullSizePathLinks.push(<span key='find'><a className='appear-as-link' onClick={() => { this.findFullSizePaths(this.state.selectedPhoto); }}>Find full size photo</a></span>);
       }
       var people = '';
       if (this.state.selectedPhoto.people) {
@@ -242,10 +246,15 @@ class Summary extends Component {
       <div>
         {/* <LoginLogout auth={new Auth()} />
         < p /> */}
-        <Breadcrumbs pathBits={pathBits} />
+        <div className='leftAligned paddedLeft'>
+          <span>current folder:</span>
+          <Breadcrumbs pathBits={pathBits} />
+        </div>
         <p>{this.state.folderCaption}</p>
         <hr />
-        {subs}
+        <div className='listHeader leftAligned paddedLeft'>
+          {subs}
+        </div>
         <hr />
         <table>
           <tbody>
@@ -257,11 +266,11 @@ class Summary extends Component {
               </td>
               <td>
                 {photoCounter}
-                <div className='row600-noscroll'>
+                <div className='row600-noscroll max500'>
                   <img height={580} alt={photoName} title={photoName} src={photoWebPath} />
                 </div>
               </td>
-              <td>
+              <td className='leftAligned paddedLeft'>
                 {photoDetails}
               </td>
             </tr>
@@ -271,6 +280,7 @@ class Summary extends Component {
         {/* {photos}
         {this.state.selectedPhoto.filename} */}
         {/* <BillList title="Upcoming bills" bills={this.state.upcomingBills} /> */}
+        {this.state.loading && <img src={waitgif} />}
       </div >
     );
   }

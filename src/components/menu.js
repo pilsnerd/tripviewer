@@ -17,7 +17,7 @@ class Menu extends Component {
 
   render() {
     return (
-      <div style={{ padding: '10px', margin: '10px', background: '#aaaaaa' }}>
+      <div className='menu'>
         {/* <div style={{ padding: '10px', margin: '10px', background: '#aaaaaa' }}>
         <Link to="/photo">Photos</Link>
         &nbsp;|&nbsp;

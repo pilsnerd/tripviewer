@@ -17,7 +17,7 @@ class Breadcrumbs extends Component {
       }
       return (<span key={crumb} />);
     });
-    return <span>{crumbs}</span>;
+    return <span className='paddedLeft'>{crumbs}</span>;
   }
 }
 

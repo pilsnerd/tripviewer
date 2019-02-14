@@ -22,7 +22,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {},
-  "homepage": "http://www.pilsnerd.com/trips",
   "browserslist": [
     ">0.2%",
     "not dead",

@@ -10,8 +10,9 @@ import Summary from './components/photos/summary';
 import Trips from './components/trips/trips';
 // import Trip from './components/trip';
 import TripByDate from './components/trips/tripbydate';
-import tripsjpg from './images/trips.jpg';
-import photosjpg from './images/photos.jpg';
+// import tripsjpg from './images/trips.jpg';
+// import photosjpg from './images/photos.jpg';
+// import waitgif from './images/wait.gif';
 // import LoginLogout from './auth/loginlogout';
 // import Auth from './auth/auth';
 
@@ -46,9 +47,9 @@ class App extends Component {
 
   render() {
     return (
-      <Router basename={'/trips'}>
+      <Router>
         <div className="App">
-          <script type="text/javascript" src="node_modules/auth0-js/build/auth0.js"></script>
+          {/* <script type="text/javascript" src="node_modules/auth0-js/build/auth0.js"></script> */}
           {/* <LoginLogout auth={new Auth()} /> */}
 
           {/* <ul>

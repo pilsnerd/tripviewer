@@ -2112,8 +2112,8 @@ const tripsByDate = [
 export async function getMenus() {
   const menuItems = [
     { link: '/', text: 'Home', description: 'This is where you are now'},
-    { link: '/photo', text: 'Photos', description: 'Pictures, organized by upload date', iconUrl: photosjpg, lastUpdated: '11/1/2018' },
-    { link: '/trips', text: 'Trips', description: 'More pictures, organized by trip', iconUrl: tripsjpg, lastUpdated: '8/31/2018' },
+    { link: '/photo', text: 'Photos', description: 'Pictures, organized by upload date', iconUrl: photosjpg, lastUpdated: '2/12/2019' },
+    // { link: '/trips', text: 'Trips', description: 'More pictures, organized by trip', iconUrl: tripsjpg, lastUpdated: '8/31/2018' },
     // { link: '/maptest', text: 'Map Test' }
   ];
   return menuItems;

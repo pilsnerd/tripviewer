@@ -5,16 +5,20 @@ To run the project:
 
 To build and "deploy" the project:
   npm run build
-  -- manually edit the index.html file and replace "/static/" with just "static/"
-  copy the contents of the build folder to D:\Web\Home\trips\
-  -- this app can then be browsed to via www.pisnerd.com/trips
-    -- clicking around might make it look like www.pilsnerd.com has been taken over, but everything is really still just running at www.pilsnerd.com/trips
+  copy the contents of the build folder to \joseph.news\
 
 Info on routing:
-  Since this app will be (at least initially) hosted in a subfolder, there are two settings that I added:
-  -- in App.js in the <Router> tag I added the "basename" attribute with a value of the name of the subfolder.
-  -- in package.json I added the "hompage" property.
+  If this app will be hosted in a subfolder, there are two settings to add/update:
+  -- in App.js in the <Router> tag add the "basename" attribute with a value of the name of the subfolder.
+  -- in package.json add the "hompage" property.
 
+
+To do:
+-- Make things prettier
+-- Make it look good on mobile devices
+-- Eliminate the /trips route and just have the /photos route do what /trips does
+  -- How will this work? When should the map be displayed?
+-- Scroll the thumbnails as the picture is changed by arrow keys
 
 -----------------------------
 

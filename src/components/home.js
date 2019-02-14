@@ -39,9 +39,14 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div className="leftAligned paddedLeft">
         <h1>Welcome!</h1>
         {this.renderMenusWithDescriptions()}
+        <div>
+          <p>
+            This web site is still a work in progress.
+          </p>
+        </div>
       </div>
     );
   }

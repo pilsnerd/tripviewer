@@ -8,6 +8,7 @@ import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
 // import BillList from './billList';
 import Breadcrumbs from './breadcrumbs';
 import SubFolderList from './subfolderlist';
+import Thumbnails from './thumbnails';
 import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
@@ -211,26 +212,6 @@ class Summary extends Component {
         </div>;
     }
 
-    const photos = this.state.photos.length === 0
-      ? <div>no photos</div>
-      : this.state.photos.map(photo => {
-        var cls = 'unselectedPhoto';
-        if (this.state.selectedPhoto && this.state.selectedPhoto.index > 0 && photo.index === this.state.selectedPhoto.index) {
-          cls = 'selectedPhoto';
-        }
-        return (
-          <div key={photo.filename}>
-            <img
-              src={photo.thumbPath}
-              alt={photo.filename}
-              title={photo.filename}
-              onClick={() => this.selectPhoto(photo)}
-              className={cls} />
-            {/* {photo.filename} */}
-          </div>
-        );
-      });
-
     return (
       <div>
         {/* <LoginLogout auth={new Auth()} />
@@ -249,7 +230,7 @@ class Summary extends Component {
             <tr>
               <td className="row600">
                 <div className='thumbnailwindow'>
-                  {photos}
+                  <Thumbnails photos={this.state.photos} selectedPhoto={this.state.selectedPhoto} selectPhoto={this.selectPhoto} />
                 </div>
               </td>
               <td>

@@ -97,7 +97,7 @@ a:hover {
 
 .thumbnailwindow {
   max-height: 600px;
-  width: 150px;
+  width: 200px;
   overflow: auto;
 }
 
@@ -128,7 +128,7 @@ a:hover {
 .unselectedPhoto {
   border: 1px gray solid;
   margin: 3px;
-  max-width: 120px;
+  max-width: 170px;
 }
 
 .selectedPhoto {
@@ -138,7 +138,7 @@ a:hover {
   float: right;
   margin: 3px;
   margin-left: 50px;
-  max-width: 120px;
+  max-width: 170px;
 }
 
 .leftAligned {

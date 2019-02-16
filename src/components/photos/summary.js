@@ -10,6 +10,7 @@ import Breadcrumbs from './breadcrumbs';
 import SubFolderList from './subfolderlist';
 import Thumbnails from './thumbnails';
 import PhotoDetails from './photodetails';
+import PhotoMap from './photomap';
 import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
@@ -34,6 +35,7 @@ class Summary extends Component {
 
     this.state = {
       loading: true,
+      showMap: false,
       path,
       subfolders: [],
       photos: [],
@@ -216,6 +218,12 @@ class Summary extends Component {
               <td className='leftAligned paddedLeft'>
                 <PhotoDetails selectedPhoto={this.state.selectedPhoto} />
               </td>
+              {/* //hiding the map for now. I'm not sure I want the whole world to know my exact locations....
+              <td>
+                <div>
+                  <PhotoMap selectedPhoto={this.state.selectedPhoto} />
+                </div>
+              </td> */}
             </tr>
           </tbody>
         </table>

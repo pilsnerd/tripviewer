@@ -33,9 +33,10 @@ class PhotoDetails extends Component {
       }
       caption = this.props.selectedPhoto.caption;
       description = this.props.selectedPhoto.description;
-      if (this.props.selectedPhoto.location !== '0, 0') {
-        location = `location: ${this.props.selectedPhoto.location}`;
-      }
+      //hiding the location for now. I'm not sure I want the whole world to know my exact locations....
+      // if (this.props.selectedPhoto.location !== '0, 0') {
+      //   location = `location: ${this.props.selectedPhoto.location}`;
+      // }
     }
 
     const details =

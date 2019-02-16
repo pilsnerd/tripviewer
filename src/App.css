@@ -110,8 +110,9 @@ a:hover {
   overflow: auto;
 }
 
-.max500 {
+.col800 {
   max-width: 800px;
+  text-align: left;
 }
 
 .overlay-right {

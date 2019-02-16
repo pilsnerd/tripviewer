@@ -9,6 +9,7 @@ import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
 import Breadcrumbs from './breadcrumbs';
 import SubFolderList from './subfolderlist';
 import Thumbnails from './thumbnails';
+import PhotoDetails from './photodetails';
 import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
@@ -175,8 +176,6 @@ class Summary extends Component {
     var photoWebPath = '';
     var photoName = '';
     var photoCounter = <span />;
-    var photoDetails = '';
-    var fullSizePathLinks = [];
     if (this.state.selectedPhoto && this.state.selectedPhoto.index > 0) {
       photoWebPath = this.state.selectedPhoto.webPath;
       photoName = this.state.selectedPhoto.filename;
@@ -185,31 +184,6 @@ class Summary extends Component {
         ? ''
         : this.state.photos.length;
       photoCounter = <span className='overlay-right'>{`${photoIndex}/${totalPhotos}`}</span>;
-      if (this.state.selectedPhoto.fullSizePaths) {
-        fullSizePathLinks.push(<span key='label'>Full-size photo possibilities:<br /></span>);
-        this.state.selectedPhoto.fullSizePaths.forEach(path => {
-          fullSizePathLinks.push(<span key={path}><a href={path} target='blank'>{path}</a><br /></span>);
-        })
-      }
-      else {
-        fullSizePathLinks.push(<span key='find'><a className='appear-as-link' onClick={() => { this.findFullSizePaths(this.state.selectedPhoto); }}>Find full size photo</a></span>);
-      }
-      var people = '';
-      if (this.state.selectedPhoto.people) {
-        people = '|';
-        this.state.selectedPhoto.people.forEach(person => {
-          people += ' ' + person + ' |';
-        })
-      }
-      photoDetails =
-        <div>
-          {this.state.selectedPhoto.dateTaken === '1/1/2000' ? <span /> : this.state.selectedPhoto.dateTaken}<br />
-          {this.state.selectedPhoto.caption}<br />
-          {this.state.selectedPhoto.description}<br />
-          {this.state.selectedPhoto.location === '0, 0' ? <span /> : this.state.selectedPhoto.location}<p />
-          {people === '|' ? <span /> : people}<br />
-          {fullSizePathLinks}
-        </div>;
     }
 
     return (
@@ -235,12 +209,12 @@ class Summary extends Component {
               </td>
               <td>
                 {photoCounter}
-                <div className='row600-noscroll max500'>
+                <div className='row600-noscroll col800'>
                   <img height={580} alt={photoName} title={photoName} src={photoWebPath} />
                 </div>
               </td>
               <td className='leftAligned paddedLeft'>
-                {photoDetails}
+                <PhotoDetails selectedPhoto={this.state.selectedPhoto} />
               </td>
             </tr>
           </tbody>

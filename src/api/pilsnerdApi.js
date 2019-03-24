@@ -789,7 +789,7 @@ export async function getTrip(tripId) {
   for (var i = 0; i < trips.length; i++) {
     console.log('current trip', trips[i].tripId);
     console.log('looking for', tripId);
-    if (trips[i].tripId == tripId) {
+    if (trips[i].tripId === tripId) {
       // console.log('building picturePlaces');
       // const picturePlaces = extractPlacesFromPictures(trips[i].pictures, trips[i].mapZoomLevel);
       // trips[i].picturePlaces = picturePlaces;
@@ -2111,9 +2111,10 @@ const tripsByDate = [
 
 export async function getMenus() {
   const menuItems = [
-    { link: '/', text: 'Home', description: 'This is where you are now'},
+    { link: '/', text: 'Home', description: 'This is where you are now' },
     { link: '/photo', text: 'Photos', description: 'Pictures, organized by upload date', iconUrl: photosjpg, lastUpdated: '2/12/2019' },
     // { link: '/trips', text: 'Trips', description: 'More pictures, organized by trip', iconUrl: tripsjpg, lastUpdated: '8/31/2018' },
+    { link: '/bwca', text: 'BWCA', description: 'Trips to the Boundar Waters Canoe Area Wilderness', iconUrl: tripsjpg, lastUpdated: '3/19/2019' },
     // { link: '/maptest', text: 'Map Test' }
   ];
   return menuItems;
@@ -2127,7 +2128,7 @@ export async function getTripByDate(tripId) {
   for (var i = 0; i < tripsByDate.length; i++) {
     console.log('current trip', tripsByDate[i].tripId);
     console.log('looking for', tripId);
-    if (tripsByDate[i].tripId == tripId) {
+    if (tripsByDate[i].tripId === tripId) {
       // console.log('building picturePlaces');
       // const picturePlaces = extractPlacesFromPictures(trips[i].pictures, trips[i].mapZoomLevel);
       // trips[i].picturePlaces = picturePlaces;
@@ -2139,6 +2140,17 @@ export async function getTripByDate(tripId) {
   return {};
 }
 
+export async function getBwcaTrips() {
+  let axiosInstance = await axios.create({
+    baseURL: 'http://www.pilsnerd.com/webservices/pilsnerdapi',
+  });
+  try {
+    let response = await axiosInstance.get(`/trips`)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // SAMPLES FROM WORK //
 

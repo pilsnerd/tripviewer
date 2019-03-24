@@ -10,6 +10,8 @@ import Summary from './components/photos/summary';
 import Trips from './components/trips/trips';
 // import Trip from './components/trip';
 import TripByDate from './components/trips/tripbydate';
+import Bwca from './components/bwca/bwca';
+import BwcaTrip from './components/bwca/bwcatrip';
 // import tripsjpg from './images/trips.jpg';
 // import photosjpg from './images/photos.jpg';
 // import waitgif from './images/wait.gif';
@@ -64,6 +66,8 @@ class App extends Component {
           <Route path="/photo" component={Summary} />
           <Route path="/trips/" exact component={Trips} />
           <Route path="/trips/:id" component={TripByDate} />
+          <Route path="/bwca/" exact component={Bwca} />
+          <Route path="/bwca/:id" component={BwcaTrip} />
           {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>

@@ -6,7 +6,7 @@ class PhotoMap extends Component {
     super(props);
 
     this.state = {
-      showMap: false
+      showMap: this.props.showMap
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -26,7 +26,7 @@ class PhotoMap extends Component {
     const photo = this.props.selectedPhoto;
     const hasLocation = (photo && photo.location && photo.location !== '0, 0');
 
-    const mapZoomLevel = 10;
+    const mapZoomLevel = 15;
     var mapCenter = { lat: 47.803091, lng: -91.121813 };
     var place = {
       placeId: 1,

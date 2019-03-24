@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import queryString from 'query-string';
 import qs from 'qs';
 import { getFolders, getFullSizeFolders } from '../../api/pilsnerdApi';
@@ -10,7 +10,7 @@ import Breadcrumbs from './breadcrumbs';
 import SubFolderList from './subfolderlist';
 import Thumbnails from './thumbnails';
 import PhotoDetails from './photodetails';
-import PhotoMap from './photomap';
+// import PhotoMap from './photomap';
 import waitgif from '../../images/wait.gif';
 
 // NOTE about query-string vs qs: the query-string library would not compile when
@@ -87,10 +87,10 @@ class Summary extends Component {
 
   handleKeyDown(evt) {
     // console.log(evt.key + ' was pressed!');
-    if (evt.key == 'ArrowRight') {
+    if (evt.key === 'ArrowRight') {
       this.selectNextPhoto(1);
     }
-    if (evt.key == 'ArrowLeft') {
+    if (evt.key === 'ArrowLeft') {
       this.selectNextPhoto(-1);
     }
   }
@@ -199,7 +199,7 @@ class Summary extends Component {
         <p>{this.state.folderCaption}</p>
         <hr />
         <div className='listHeader leftAligned paddedLeft'>
-          <SubFolderList path={rootPath} subfolders={this.state.subfolders} />
+          <SubFolderList path={rootPath} route='photo' subfolders={this.state.subfolders} />
         </div>
         <table>
           <tbody>
@@ -231,7 +231,7 @@ class Summary extends Component {
         {/* {photos}
         {this.state.selectedPhoto.filename} */}
         {/* <BillList title="Upcoming bills" bills={this.state.upcomingBills} /> */}
-        {this.state.loading && <img src={waitgif} />}
+        {this.state.loading && <img src={waitgif} alt='wait' />}
       </div >
     );
   }

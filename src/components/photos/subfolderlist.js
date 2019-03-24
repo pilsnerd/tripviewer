@@ -5,13 +5,14 @@ class SubFolderList extends Component {
 
   render() {
     const rootPath = this.props.path;
+    const rootRoute = this.props.route;
 
     var subs = <div></div>;
 
     if (this.props.subfolders && this.props.subfolders.length > 0) {
       const subsList = this.props.subfolders.map(fld => {
         const fldPath = `${rootPath}/${fld}`;
-        const linkPath = `/photo?path=${fldPath}`;
+        const linkPath = `${rootRoute}/?path=${fldPath}`;
         return (
           <div key={fld} className='listItem'>
             <Link to={linkPath}>{fld}</Link>

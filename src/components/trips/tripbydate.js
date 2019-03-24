@@ -37,7 +37,7 @@ class TripByDate extends Component {
   loadDate(dateToLoad) {
     var currentDate = {};
     for (var i = 0; i < this.state.trip.dates.length; i++) {
-      if (this.state.trip.dates[i].date == dateToLoad) {
+      if (this.state.trip.dates[i].date === dateToLoad) {
         currentDate = this.state.trip.dates[i];
       }
     }
@@ -168,7 +168,7 @@ class TripByDate extends Component {
     let place = {};
     for (var i = 0; i < places.length; i++) {
       places[i].icon = "Yellow";
-      if (places[i].placeId == placeId) {
+      if (places[i].placeId === placeId) {
         place = places[i];
         place.icon = "RedArrow";
       }
@@ -188,7 +188,7 @@ class TripByDate extends Component {
     console.log(trip);
     const dateLinks = trip.dates.map(date => {
       var dateClassName = 'appear-as-link';
-      var isSelected = (this.state.currentDate && date.date == this.state.currentDate.date);
+      var isSelected = (this.state.currentDate && date.date === this.state.currentDate.date);
       if (isSelected) {
         dateClassName += ' selectedDate';
       }
